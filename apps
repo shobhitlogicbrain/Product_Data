@@ -1,0 +1,20 @@
+OUTPUT_PATH = r"C:/Users/shobhit.c.tiwari/OneDrive - Accenture/Scraping/App_store/AppleAppsList_sample"
+
+df = pd.read_csv(r"C:/Users/shobhit.c.tiwari/OneDrive - Accenture/Scraping/App_store/Scraping Codes_AppleAppsList.txt",encoding='latin1')
+
+for rec in df.to_dict("records"):
+    app_id = rec["AppLink"].split("/")[-1].replace("id","")
+    app_name = rec["BankName"]
+#     file_name = rec["AppLink"].split("/")[-2].replace("-","_")
+    print(app_name)
+    nhsapp = AppStore(country="gb",app_name=app_name, app_id=app_id)
+    nhsapp.review()
+    time.sleep(15)
+    pd.DataFrame(nhsapp.reviews).to_csv(OUTPUT_PATH+file_name+'.csv',index=False,doublequote=True)
+    
+    from app_store_scraper import AppStore
+import pandas as pd
+import time
+# import requests
+# from requests.adapters import HTTPAdapter
+# from requests.packages.urllib3.util.retry import Retry
